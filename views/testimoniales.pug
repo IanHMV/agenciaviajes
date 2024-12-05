@@ -1,0 +1,39 @@
+extends ./layout/index
+
+block contenido
+    main.container.mt-5
+        h1.text-center.mt-5 #{pagina}
+
+        include ./layout/bloque_testimoniales
+
+        .row
+            
+            .col-md-12
+                h2.d-block.w-100.text-center Agrega un Testimonial
+
+                //- Se muestran mensajes de error si existe ese arreglo
+                if(errores)
+                    //- Iteras sobre el array de mensajes
+                    each error in errores
+                        //- Cuando iteras, es un array, pero se manda a llamar las variables como objeto
+                        .alert.col.alert-danger.text-center=error.mensaje
+            
+
+            .row.justify-content-center.col
+                .col-md-8
+                    //- El metodo POST, es la forma en la que envias datos a un servidor
+                    //- En el action tenemos que definir hacia donde queremos enviar los datos
+                    form(action="/testimoniales" method="POST")
+                        //- El for sirve para que cuando presiones en el label se active el input, por lo cual el id y el for tienen que ser iguales
+                        //- la etiqueta 'name', al momento de imprimir en consola con req, te va a paracer el campo con ese nombre
+                        .form-group
+                            label(for="nombre") Nombre
+                            input#nombre(type="text", placeholder="Tu Nombre", name="nombre", class="form-control", value= nombre)
+                        .form-group
+                            label(for="correo") Correo Electronico
+                            input#correo(type="text", placeholder="Tu Correo", name="correo", class="form-control", value= correo)
+                        .form-group
+                            label(for="mensaje") Mensaje
+                            textarea#mensaje(name="mensaje", class="form-control",placeholder="Tu Mensaje",rows=3)= mensaje
+
+                        input.btn.btn-success.btn-block(type="submit")
